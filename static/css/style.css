@@ -4,6 +4,7 @@ body {
 
 .jumbotron {
     font-family: 'Quicksand', sans-serif;
+    color: deepskyblue;
     background: no-repeat center center;
     background-attachment: scroll;
     -webkit-background-size: cover;
