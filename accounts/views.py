@@ -6,7 +6,7 @@ from django.template.context_processors import csrf
 from .forms import UserLoginForm, UserRegistrationForm
 
 
-@login_required(login_url='/login?next=profile')
+@login_required(login_url='/accounts/login')
 def profile(request):
     return render(request, 'profile.html')
 
