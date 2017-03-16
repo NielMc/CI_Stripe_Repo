@@ -1,0 +1,13 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.jumbotron {
+    font-family: 'Quicksand', sans-serif;
+    background: no-repeat center center;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
