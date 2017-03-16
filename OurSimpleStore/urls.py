@@ -22,6 +22,7 @@ from payments import urls as payments_urls
 from django.views import static
 from settings import MEDIA_ROOT
 
+
 urlpatterns = [
     url(r'^$', get_index, name='index'),
     url(r'^admin/', admin.site.urls),

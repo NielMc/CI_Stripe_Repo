@@ -1,27 +1,20 @@
-{% extends "base.html" %}
+
+
+{% extends base.html %}
 {% block content %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Buy</th>
-                <th>Cart</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-                <tr>
-                    <td><img height="100" width="100" src="{{ MEDIA_URL }}{{ product.image }}"></td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>
-                    <td>{{ product.price }}</td>
-                    <td><a href="{% url 'buy_now_stripe' product.id %}")>Buy Now</a></td>
-                    <td><a href="#")>Add To Cart</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {%  for product in products %}
+<div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="{{ MEDIA_URL }}{{ product.image }}" alt="">
+                    <div class="caption">
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">{{ product.price }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+{%  endfor %}
 {% endblock %}
+
