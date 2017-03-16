@@ -18,7 +18,7 @@ def buy_now(request, id):
             try:
                 product = get_object_or_404(Product, pk=id)
                 customer = stripe.Charge.create(
-                    amount= int(product.price * 100),
+                    amount=int(product.price * 100),
                     currency="EUR",
                     description=product.name,
                     card=form.cleaned_data['stripe_id'],
