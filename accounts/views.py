@@ -6,7 +6,7 @@ from django.template.context_processors import csrf
 from .forms import UserLoginForm, UserRegistrationForm
 
 
-@login_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login?next=profile')
 def profile(request):
     return render(request, 'profile.html')
 
@@ -16,7 +16,6 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'You have successfully logged out')
     return redirect(reverse('index'))
-
 
 
 def login(request):
@@ -44,7 +43,6 @@ def login(request):
     args = {'form': form, 'next': request.GET['next'] if request.GET and 'next' in request.GET else ''}
     args.update(csrf(request))
     return render(request, 'login.html', args)
-
 
 
 def register(request):

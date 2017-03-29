@@ -7,6 +7,11 @@ from django.template.context_processors import csrf
 from django.contrib import messages
 from django.conf import settings
 import stripe
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+
+from rest_framework import viewsets
+from .serializers import CartItemSerializer
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -18,7 +23,7 @@ def user_cart(request):
     cartItems = CartItem.objects.filter(user=request.user)
     total = 0
     for item in cartItems:
-        total += item.product.price
+        total += item.quantity * item.product.price
 
     if request.method == 'POST':
         form = MakePaymentForm(request.POST)
@@ -52,11 +57,18 @@ def user_cart(request):
 @login_required(login_url="/login?next=cart/add")
 def add_to_cart(request, id):
     product = get_object_or_404(Product, pk=id)
-    cartItem = CartItem(
-        user=request.user,
-        product=product,
-        quantity=1
-    )
+    quantity = int(request.POST.get('quantity'))
+
+    try:
+        cartItem = CartItem.objects.get(user=request.user, product=product)
+        cartItem.quantity += quantity
+    except CartItem.DoesNotExist:
+
+        cartItem = CartItem(
+            user=request.user,
+            product=product,
+            quantity=quantity
+        )
     cartItem.save()
     return redirect(reverse('cart'))
 
@@ -64,3 +76,19 @@ def add_to_cart(request, id):
 def remove_from_cart(request, id):
     CartItem.objects.get(id=id).delete()
     return redirect(reverse('cart'))
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    """
+        API endpoint that allows users to be viewed or edited.
+    """
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
